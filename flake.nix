@@ -420,6 +420,8 @@
                 };
               };
 
+              networking.firewall.allowedTCPPorts = [ 22 ];
+
               # Allow null password for initial SSH access
               security.pam.services.sshd.allowNullPassword = true;
 
