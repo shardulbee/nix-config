@@ -79,8 +79,7 @@
             nil
             nixd
             sourcekit-lsp
-            ollama
-            chezmoi
+            espanso
 
             # macos gui apps
             aerospace
@@ -96,6 +95,7 @@
             brews = [
               "libyaml"
               "openssl"
+              "mas"
             ];
             casks = [
               "google-chrome"
@@ -108,7 +108,6 @@
               "cursor"
               "homerow"
               "cleanshot"
-              "dropbox"
               "google-drive"
               "vlc"
               "zwift"
@@ -119,12 +118,11 @@
               "discord"
               "obsidian"
               "orbstack"
-              "claude"
               "activitywatch"
               "karabiner-elements"
             ];
             masApps = {
-              "Infuse" = 1136220934;
+              "Things 3" = 904280696;
             };
             onActivation.cleanup = "zap";
             onActivation.autoUpdate = false;
