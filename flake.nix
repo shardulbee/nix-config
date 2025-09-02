@@ -79,7 +79,6 @@
             nil
             nixd
             sourcekit-lsp
-            espanso
 
             # macos gui apps
             aerospace
@@ -120,6 +119,7 @@
               "orbstack"
               "activitywatch"
               "karabiner-elements"
+              "espanso"
             ];
             masApps = {
               "Things 3" = 904280696;
@@ -326,16 +326,13 @@
             {
               imports = [ (modulesPath + "/virtualisation/proxmox-lxc.nix") ];
 
-              # Basic system configuration
               system.stateVersion = "24.11";
 
-              # Proxmox LXC specific settings
               proxmoxLXC = {
                 manageNetwork = false;
-                privileged = false; # Set to true if needed
+                privileged = false;
               };
 
-              # Disable sandboxing for LXC
               nix.settings.sandbox = false;
 
               # Disable documentation to avoid man-cache build issues in container
@@ -345,85 +342,43 @@
               documentation.info.enable = false;
               documentation.doc.enable = false;
 
-              # Networking
               networking.hostName = "nixos";
 
-              # Enable flakes
               nix.settings.experimental-features = [
                 "nix-command"
                 "flakes"
               ];
 
-              # Allow unfree packages
               nixpkgs.config.allowUnfree = true;
 
-              # System packages (CLI tools only)
               environment.systemPackages = with pkgs; [
-                # Core CLI tools
                 bat
                 fd
                 fzf
                 gh
                 git
-                delta
                 jq
                 neovim
-                nodejs
-                bun
                 ripgrep
-                stow
-                universal-ctags
                 zoxide
-                btop
                 direnv
                 mise
                 age
-                python311Packages.uv
                 uv
                 jujutsu
                 jjui.packages.${pkgs.system}.default
-                difftastic
-                lowdown
                 hyperfine
-                zig
                 wget
-                google-cloud-sdk
-                bottom
-                nixfmt-classic
                 tmux
-                mosh
                 atuin
-                yazi
-                nil
-                nixd
 
                 # Development tools
-                gcc
-                gnumake
                 openssh
                 curl
-                tree
                 htop
-                ncdu
               ];
 
-              # Enable SSH with initial access (tighten after setup)
-              services.openssh = {
-                enable = true;
-                openFirewall = true;
-                settings = {
-                  PermitRootLogin = "yes"; # Change to "no" after initial setup
-                  PasswordAuthentication = true; # Change to false after adding SSH keys
-                  PermitEmptyPasswords = "yes"; # Remove after initial setup
-                };
-              };
-
-              networking.firewall.allowedTCPPorts = [ 22 ];
-
-              # Allow null password for initial SSH access
-              security.pam.services.sshd.allowNullPassword = true;
-
-              # Enable tailscale
+              services.openssh.enable = true;
               services.tailscale.enable = true;
 
               # User configuration
@@ -469,23 +424,12 @@
                       enableFishIntegration = true;
                     };
 
-                    programs.direnv = {
-                      enable = true;
-                      enableFishIntegration = true;
-                      nix-direnv.enable = true;
-                    };
-
                     programs.atuin = {
                       enable = true;
                       enableFishIntegration = true;
                     };
 
-                    programs.bat = {
-                      enable = true;
-                      config = {
-                        theme = "GitHub";
-                      };
-                    };
+                    programs.bat.enable = true;
                   };
               };
             }
