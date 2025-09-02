@@ -373,6 +373,7 @@
                 atuin
 
                 # Development tools
+                gnumake
                 openssh
                 curl
                 htop
